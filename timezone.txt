@@ -1,0 +1,21 @@
+ most of the United States starts on the 2nd Sunday in March and ends on the 1st Sunday in November. 
+
+- record: day_light_savings_time
+  expr: |
+# All of April - October
+      (vector(1) and (month() > 3 and month() < 11))
+      or
+# Anyday after 2nd Sunday in March
+      (Vector(1) and (month() == 3 and (day_of_month() - day_of_week()) > 7)
+      or
+# Anyday before first Sunday of November
+      (vector(1) and (month() == 11 and (day_of_month() - day_of_week()) < 1 )
+      or
+# First sunday of November before 1am
+      (vector(1) and ((month() == 11 and hour() < 1) and ((day_of_month()  < 8 and day_of_week() == 0)))
+      or
+# 2nd Sunday in March from 1am (other sundays in March matched above)
+      (vector(1) and ((month() == 3  and hour() > 0) and ((day_of_month() > 8 and day_of_week() == 0)))
+      or
+      vector(0)
+
